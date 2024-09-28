@@ -1,4 +1,6 @@
-# fitbits
+<p align="center"><img src="https://github.com/tpncoder/fitbits/blob/main/assets/logo.png" alt="Fitbits logo"  width="150px" height="125px"/></p>
+
+<h1 align="center">fitbits</h1>
 
 **fitbits** is a fitness application designed to help users create personalized fitness routines and diet plans using AI. This app provides an intuitive user experience, allowing individuals to track their progress, set fitness goals, and stay motivated on their fitness journey.
 
@@ -24,7 +26,7 @@
    ```
 2. Navigate to the project directory:
    ```bash
-   cd fitbits
+   cd fitbits/easyfit
    ```
 3. Install dependencies:
    ```bash
