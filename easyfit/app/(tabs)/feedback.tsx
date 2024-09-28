@@ -49,7 +49,7 @@ export default function Feedback() {
                         {loading ? (
                             <YStack alignItems="center" justifyContent="center" flex={1}>
                                 <ActivityIndicator size="large" color="#blue8Dark" />
-                                <Text color="white">Loading settings...</Text>
+                                <Text color="white">Loading...</Text>
                             </YStack>
                         ) : (
                             <YStack gap="$2">
