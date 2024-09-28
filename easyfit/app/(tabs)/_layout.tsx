@@ -97,6 +97,13 @@ export default function TabLayout() {
             tabBarButton: () => null,
           }}
         />
+        <Tabs.Screen
+          name="feedback"
+          options={{
+            title: "Feedback",
+            tabBarButton: () => null,
+          }}
+        />
       </Tabs>
     );
   }

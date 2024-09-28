@@ -1,10 +1,9 @@
-import { useState, useEffect } from 'react';
-import { Text, YStack, XStack, Button, H1 } from "tamagui";
-import { getUserData, updateUserData } from '@/scripts/userData';
-import { getObjectData } from '@/scripts/store';
 import InputField from "@/components/InputField";
-import { ImageBackground } from 'react-native';
-import { ActivityIndicator } from 'react-native';
+import { getObjectData } from '@/scripts/store';
+import { getUserData, updateUserData } from '@/scripts/userData';
+import { useEffect, useState } from 'react';
+import { ActivityIndicator, ImageBackground } from 'react-native';
+import { Button, H1, Text, XStack, YStack } from "tamagui";
 
 interface SettingsProps {
   onUpdate: () => void; // Callback prop to trigger data re-fetch

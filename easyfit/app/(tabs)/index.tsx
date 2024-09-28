@@ -8,7 +8,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { ActivityIndicator, ImageBackground } from 'react-native';
 
 import FitnessCard from '@/components/FitnessCard';
-import { H1, H2, YStack, Button, ScrollView, SizableText, Text } from 'tamagui';
+import { H1, H2, YStack, Button, ScrollView, SizableText, Text, Card, H4, H3 } from 'tamagui';
+import { router } from 'expo-router';
 
 export default function TabOneScreen() {
   const [plans, setPlans] = useState<any[]>([]);
@@ -55,14 +56,14 @@ export default function TabOneScreen() {
     try {
       setFetching(true);
       const plansFromDb = await getPlans();
-      console.log("Plans from DB after deletion:", plansFromDb); // Log fetched plans
+      console.log("Plans from DB after deletion:", plansFromDb);
       if (plansFromDb) {
         const newPlans = plansFromDb.map(plan => ({
           ...plan.data(),
-          id: plan.id // Ensure each plan object has an id property
+          id: plan.id
         }));
         setPlans(newPlans);
-        console.log("Updated Plans State:", newPlans); // Log updated plans
+        console.log("Updated Plans State:", newPlans);
       }
     } catch (error) {
       console.error('Error fetching plans:', error);
@@ -90,6 +91,12 @@ export default function TabOneScreen() {
         >
           <H1 margin="$4" marginLeft={"$8"} fontWeight={800} marginTop={"$9"} color="white" >HI THERE,👋</H1>
           <H2 marginLeft={"$8"} fontWeight={100} color="white">Your Plans</H2>
+          <Card width={320} padded borderRadius={"$10"} ml={"$3"} mt={"$3"}>
+            <YStack gap={"$4"}>
+              <H4>Want to get your daily feedback?</H4>
+              <Button bg={"$red9Dark"} borderRadius={"$9"} fontWeight={800} color="white" onPress={() => router.push("/feedback")}>Let's Go!</Button>
+            </YStack>
+          </Card>
           {loading || fetching ? (
             <YStack alignItems="center" justifyContent="center" flex={1}>
               <ActivityIndicator size="large" color="#blue8Dark" />
@@ -104,15 +111,15 @@ export default function TabOneScreen() {
                 {plans.length > 0 ? (
                   plans.map((plan) => (
                     <FitnessCard
-                      key={plan.id} // Use plan.id directly as the key
+                      key={plan.id}
                       title={plan.title}
-                      link={`plan/${plan.id}`} // Use plan.id for the link as well
-                      id={plan.id} // Pass the plan.id to the FitnessCard
-                      onDeleted={() => deletePlan(plan.id)} // Call deletePlan with plan.id
+                      link={`plan/${plan.id}`}
+                      id={plan.id}
+                      onDeleted={() => deletePlan(plan.id)}
                     />
                   ))
                 ) : (
-                  <Text>No plans available.</Text> // Show message if no plans
+                  <H3 ml={"$7"} color={"white"}>No plans available.</H3> // Show message if no plans
                 )}
               </YStack>
             </>

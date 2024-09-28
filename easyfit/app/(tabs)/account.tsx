@@ -37,6 +37,7 @@ export default function AccountScreen() {
     >
       <SafeAreaView style={{ flex: 1 }}>
         <ScrollView contentContainerStyle={{ flexGrow: 1, padding: 20 }}>
+          <H1 color="white" alignSelf='center' marginTop={"$8"}>Your Profile</H1>
           {loading ? (
             <YStack alignItems="center" justifyContent="center" flex={1}>
               <ActivityIndicator size="large" color="#blue8Dark" />
