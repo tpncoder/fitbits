@@ -1,0 +1,22 @@
+1. Start
+2. User Onboarding
+    New User?
+      Yes: Create Account
+      No: Log In
+3. User Profile Setup
+    Input Personal Information (Height, Weight, Goals)
+4. Choose Fitness Goal
+    Cardio
+    Strength Training
+    Flexibility
+    Custom Plan
+5. Generate Fitness Plan
+    AI analyzes user data
+    Create personalized plan
+    Display Fitness Plan
+    Show exercises and schedule
+6. User Feedback
+    Rate plan effectiveness
+    Suggest modifications
+    Share on Community
+7. End
