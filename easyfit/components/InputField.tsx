@@ -9,6 +9,7 @@ export default function InputField({ store = "", update, placeholder, secureText
             onChangeText={(text) => update(text)}
             secureTextEntry={secureTextEntry}
             id={id}
+            borderColor={"$black5"}
         />
     );
 }
