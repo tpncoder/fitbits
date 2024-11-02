@@ -1,16 +1,15 @@
 import { useEffect, useState, useContext } from 'react';
+import { Platform, ScrollView, ActivityIndicator, ImageBackground, View } from 'react-native';
 import { getUserData } from '@/scripts/getUserData';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { ScrollView, ActivityIndicator, ImageBackground } from 'react-native';
 import { Card, H2, H6, YGroup, Image, XGroup, H3, Button, H1, YStack } from 'tamagui';
 import { router } from 'expo-router';
-
 import LoginContext from '@/hooks/loggedInContext';
 
 export default function AccountScreen() {
   const [UData, setUData] = useState([]);
   const { logOut } = useContext(LoginContext);
-  const [loading, setLoading] = useState(true); // Loading state
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const returnUData = async () => {
@@ -23,7 +22,7 @@ export default function AccountScreen() {
       } catch (error) {
         console.error("Error fetching user data: ", error);
       } finally {
-        setLoading(false); // Set loading to false after data fetching
+        setLoading(false);
       }
     };
     
@@ -32,11 +31,17 @@ export default function AccountScreen() {
 
   return (
     <ImageBackground 
-      source={require('@/assets/images/gradient.png')} // Add your gradient image here
+      source={require('@/assets/images/gradient.png')}
       style={{ flex: 1, width: null, height: null }}
     >
       <SafeAreaView style={{ flex: 1 }}>
-        <ScrollView contentContainerStyle={{ flexGrow: 1, padding: 20 }}>
+        <ScrollView 
+          contentContainerStyle={{ 
+            flexGrow: 1, 
+            padding: 20, 
+            paddingBottom: Platform.OS === 'web' ? 10 : 10 
+          }}
+        >
           <H1 color="white" alignSelf='center' marginTop={"$8"}>Your Profile</H1>
           {loading ? (
             <YStack alignItems="center" justifyContent="center" flex={1}>
@@ -70,48 +75,50 @@ export default function AccountScreen() {
             <H1 color="white">No user data available</H1>
           )}
           <XGroup alignSelf='center'>
-          <Card
-            padded
-            bordered={false} // Ensure the border is disabled
-            width={280}
-            height={150}
-            borderRadius={"$radius.2"}
-            onPress={() => { router.push("/(tabs)/user_posts") }}
-            style={{ 
-              overflow: 'hidden', 
-              backgroundColor: 'transparent', // Ensure the card itself has a transparent background
-              borderWidth: 0, // Set border width to 0
-              borderColor: 'transparent' // Set border color to transparent
-            }} 
-          >
-            <Card.Background>
-              <Image
-                borderRadius={"$radius.2"} // Match the card's border radius
-                source={{
-                  width: 300,
-                  height: 150,
-                  uri: 'https://plus.unsplash.com/premium_photo-1665329006985-04f95dd59402?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-                }}
-                style={{ width: '100%', height: '100%' }} // Ensure image fits the card
-              />
-            </Card.Background>
-            <Card.Footer style={{ backgroundColor: 'transparent' }}>
-              <H3 fontWeight={800} color={"whitesmoke"} shadowColor={"$gray1Dark"}>YOUR POSTS</H3>
-            </Card.Footer>
-          </Card>
+            <Card
+              padded
+              bordered={false}
+              width={280}
+              height={150}
+              borderRadius={"$radius.2"}
+              onPress={() => { router.push("/(tabs)/user_posts") }}
+              style={{ 
+                overflow: 'hidden', 
+                backgroundColor: 'transparent',
+                borderWidth: 0,
+                borderColor: 'transparent'
+              }} 
+            >
+              <Card.Background>
+                <Image
+                  borderRadius={"$radius.2"}
+                  source={{
+                    width: 300,
+                    height: 150,
+                    uri: 'https://plus.unsplash.com/premium_photo-1665329006985-04f95dd59402?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+                  }}
+                  style={{ width: '100%', height: '100%' }}
+                />
+              </Card.Background>
+              <Card.Footer style={{ backgroundColor: 'transparent' }}>
+                <H3 fontWeight={800} color={"whitesmoke"} shadowColor={"$gray1Dark"}>YOUR POSTS</H3>
+              </Card.Footer>
+            </Card>
           </XGroup>
-          <Button 
-            onPress={() => { logOut() }} 
-            backgroundColor={"$red8Dark"} 
-            width={130} 
-            fontWeight={800} 
-            color={"whitesmoke"} 
-            shadowColor={'$gray1Dark'} 
-            alignSelf='center' 
-            marginTop={"$5"}
-          >
-            Log Out
-          </Button>
+          <View style={{ paddingBottom: Platform.OS === 'web' ? 80 : 20 }}>
+            <Button 
+              onPress={() => { logOut() }} 
+              backgroundColor={"$red8Dark"} 
+              width={130} 
+              fontWeight={800} 
+              color={"whitesmoke"} 
+              shadowColor={'$gray1Dark'} 
+              alignSelf='center' 
+              marginTop={"$5"}
+            >
+              Log Out
+            </Button>
+          </View>
         </ScrollView>
       </SafeAreaView>
     </ImageBackground>
