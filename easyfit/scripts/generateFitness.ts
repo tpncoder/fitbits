@@ -4,7 +4,7 @@ const genAI = new GoogleGenerativeAI("AIzaSyB_K1FGlQ4UGu_x0_eYXg1pqm8mPSaDneA");
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 const formatUserData = (userData) => {
-  return `Create a month-long fitness plan for a user with the following details:
+  return `Create a month-long fitness and diet plan for a user with the following details:
   - Height: ${userData.height} cm
   - Weight: ${userData.weight} kg
   - Fitness Goal: ${userData.goal}
