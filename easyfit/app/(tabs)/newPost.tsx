@@ -4,8 +4,7 @@ import CSlider from "@/components/Slider";
 import { db } from "@/firebaseConfig";
 import { getPlans } from "@/scripts/getFitnessPlans";
 import { router } from "expo-router";
-import { addDoc } from "firebase/firestore";
-import { collection } from "firebase/firestore";
+import { addDoc, collection, query, where, getDocs, updateDoc, doc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Button, Card, H1, Label, ScrollView, SizableText, XStack, YStack } from "tamagui";
@@ -55,20 +54,54 @@ export default function NewPost() {
     const shareProgress = async () => {
         const selectedPlanIndex = plans.findIndex(plan => plan.title === selected);
         const selected_plan = plans[selectedPlanIndex];
-        try {
-            const doc = await addDoc(collection(db, "posts"), {
-                doc_id: selectedID,
-                title: selected,
-                u_name: selected_plan?.u_name || "Unknown",
-                content: `${sliderValue}% progress made in the completion of this fitness plan`,
-                goals: tags
-            });
-            router.navigate("/");
-            console.log("Document written with ID: ", doc.id);
-        } catch (error) {
-            console.error("Error adding document: ", error);
+    
+        // Check if post for this plan ID already exists
+        const postsRef = collection(db, "posts");
+        const q = query(postsRef, where("doc_id", "==", selectedID));
+        const querySnapshot = await getDocs(q);
+    
+        if (!querySnapshot.empty) {
+            const docRef = querySnapshot.docs[0].ref;
+            console.log("Attempting to update document ID:", docRef.id);
+    
+            try {
+                await updateDoc(docRef, {
+                    content: `${sliderValue}% progress made in the completion of this fitness plan`,
+                    goals: tags
+                });
+                console.log("Document updated successfully");
+    
+                // Force update of the plans list to reflect the change
+                const updatedPlans = await getPlans();
+                const updatedTitles = updatedPlans.map((plan) => plan.id);
+                setIds(updatedTitles);
+                setPlans(updatedPlans.map((plan) => plan.data()));
+    
+                alert("Progress updated successfully!");
+            } catch (error) {
+                console.error("Error updating document: ", error);
+            }
+        } else {
+            try {
+                const newDoc = await addDoc(postsRef, {
+                    doc_id: selectedID,
+                    title: selected,
+                    u_name: selected_plan?.u_name || "Unknown",
+                    content: `${sliderValue}% progress made in the completion of this fitness plan`,
+                    goals: tags,
+                });
+                console.log("New document created with ID:", newDoc.id);
+                router.navigate("/");
+    
+                // Update state with new plans data
+                const updatedPlans = await getPlans();
+                setPlans(updatedPlans.map(plan => plan.data()));
+            } catch (error) {
+                console.error("Error adding document:", error);
+            }
         }
-    }
+    };
+    
 
     return (
         <ImageBackground 
@@ -85,7 +118,7 @@ export default function NewPost() {
                         size={"$4"}
                         bordered
                         animation="bouncy"
-                        width={350} // Adjust width for better visibility
+                        width={350}
                         scale={1}
                         hoverStyle={{ scale: 0.925 }}
                         pressStyle={{ scale: 0.875 }}
@@ -124,7 +157,6 @@ export default function NewPost() {
                         </YStack>
                     </Card>
                     
-                    {/* Enter Goals */}
                     <Card
                         elevate
                         size={"$4"}
@@ -147,10 +179,20 @@ export default function NewPost() {
                                     placeholder=""
                                     id="tag-field"
                                 />
-                                <Button backgroundColor={"#312F30"} marginLeft={"$2"} color={"white"} onPress={() => {
-                                    setTags([...tags, tag]);
-                                    setTag("");
-                                }}>Add Goal</Button>
+                                <Button
+                                    backgroundColor={"#312F30"}
+                                    marginLeft={"$2"}
+                                    color={"white"}
+                                    onPress={() => {
+                                        if (tag.trim().length > 0) {  // Ensures the tag is not empty or whitespace
+                                            setTags([...tags, tag]);
+                                            setTag("");
+                                        }
+                                    }}
+                                >
+                                    Add Goal
+                                </Button>
+
                             </XStack>
                             <XStack marginTop={"$2"}>
                             {tags.map((tag, index) => (
@@ -190,7 +232,6 @@ export default function NewPost() {
                         </YStack>
                     </Card>
                     
-                    {/* Share Progress Button */}
                     <Button borderRadius={"$9"} backgroundColor={"#303030"} color={"white"} width={150} alignSelf="center" onPress={shareProgress}>Share Post</Button>
                 </ScrollView>
             </SafeAreaView>
