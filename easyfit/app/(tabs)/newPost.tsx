@@ -111,7 +111,7 @@ export default function NewPost() {
         >
             <SafeAreaView style={{ flex: 1 }}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 100 }}>
-                    <H1 alignSelf="center" padding={"$3"} fontWeight={800} marginTop={"$12"} color={"white"}>SHARE</H1>
+                    <H1 alignSelf="center" padding={"$3"} fontWeight={800} marginTop={"$5"} color={"white"}>SHARE</H1>
                     
                     <Card
                         elevate

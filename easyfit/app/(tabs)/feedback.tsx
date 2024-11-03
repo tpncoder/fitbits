@@ -6,6 +6,9 @@ import { getObjectData } from "@/scripts/store";
 import { ImageBackground, ActivityIndicator } from 'react-native';
 import Markdown from "react-native-markdown-display";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { doc, collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
+import { db } from "@/firebaseConfig"; // Assuming you have a config file for Firebase
 
 export default function Feedback() {
     const [newHeight, setNewHeight] = useState<string>("");
@@ -16,7 +19,6 @@ export default function Feedback() {
     const [goal, setGoal] = useState<string>("");
 
     const [loading, setLoading] = useState<boolean>(true)
-
     const [feedback, setFeedback] = useState<string>("")
 
     useEffect(() => {
@@ -30,6 +32,49 @@ export default function Feedback() {
         }
         getPlans()
     }, [])
+
+    const handleFeedbackSubmit = async () => {
+        setLoading(true);
+        if (!goal || !height || !weight) {
+            alert('Please fill in all fields.');
+            setLoading(false);
+            return;
+        }
+
+        try {
+            // Generate feedback
+            const feedbackAI = await generateFeedback({
+                previous: {
+                    height: parseInt(height),
+                    weight: parseInt(weight)
+                },
+                current: {
+                    height: parseInt(newHeight),
+                    weight: parseInt(newWeight),
+                    goal: goal
+                }
+            });
+            setFeedback(feedbackAI);
+
+            // Get user ID from async storage
+            const u_data = await getObjectData("u_data");
+            const u_id = u_data.u_name;
+
+            // Add snapshot to Firestore
+            await addDoc(collection(db, "fitness_snapshot"), {
+                height: parseInt(newHeight),
+                weight: parseInt(newWeight),
+                u_id: u_id,
+                time: serverTimestamp()
+            });
+
+            console.log("Document successfully written!");
+        } catch (error) {
+            console.error("Error adding document: ", error);
+        }
+
+        setLoading(false);
+    }
 
     return (
         <ImageBackground
@@ -62,26 +107,7 @@ export default function Feedback() {
                                     <InputField store={newWeight} update={setNewWeight} placeholder="Your Weight (in kg)" />
                                 </XStack>
                                 <Button
-                                    onPress={async () => {
-                                        setLoading(true)
-                                        if (!goal || !height || !weight) {
-                                            alert('Please fill in all fields.');
-                                            return;
-                                        }
-                                        const feedbackAI = await generateFeedback({
-                                            previous: {
-                                                height: parseInt(height),
-                                                weight: parseInt(weight)
-                                            },
-                                            current: {
-                                                height: parseInt(newHeight),
-                                                weight: parseInt(newWeight),
-                                                goal: goal
-                                            }
-                                        })
-                                        setFeedback(feedbackAI)
-                                        setLoading(false)
-                                    }}
+                                    onPress={handleFeedbackSubmit}
                                     backgroundColor={"#303030"}
                                     marginTop="$4"
                                     color={"white"}

@@ -1,18 +1,19 @@
 import { useState, useEffect } from "react";
 import { ScrollView } from "tamagui";
-import { YStack, H2, Separator, Card, SizableText, XStack } from "tamagui";
+import { YStack, H2, Card } from "tamagui";
 import { ImageBackground } from "react-native";
-import Markdown from 'react-native-markdown-display';
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/firebaseConfig";
 import { useLocalSearchParams } from 'expo-router';
-import { MaterialIcons } from '@expo/vector-icons';
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useWindowDimensions } from 'react-native';
+import RenderHtml from 'react-native-render-html';
 
 export default function Page() {
-  const [fitnessPlan, setFitnessPlan] = useState("");
+  const [sections, setSections] = useState([]);
   const [title, setTitle] = useState("");
   const { id } = useLocalSearchParams();
+  const { width } = useWindowDimensions();
 
   const getFitnessPlan = async (collectionName, documentName) => {
     const docRef = doc(db, collectionName, documentName);
@@ -28,11 +29,20 @@ export default function Page() {
 
   useEffect(() => {
     const storeDocument = async () => {
-      const data = await getFitnessPlan("fitness_plans", id);
+      const data = await getFitnessPlan("library_plans", id);
       if (data !== null) {
-        console.log(data.content)
-        setFitnessPlan(data.content);
         setTitle(data.title);
+
+        // Use a regex to split the HTML content by <section> tags
+        const htmlSections = data.content.split(/<\/?section>/i);
+        const parsedSections = htmlSections
+          .map((section, index) => {
+            const trimmedSection = section.trim();
+            return trimmedSection ? { content: `<section>${trimmedSection}</section>`, key: index } : null;
+          })
+          .filter(section => section !== null); // Remove any null values (empty sections)
+
+        setSections(parsedSections);
       }
     };
     storeDocument();
@@ -48,8 +58,7 @@ export default function Page() {
         }}
     >
       <SafeAreaView style={{ flex: 1 }}>
-        <ScrollView style={{ flex: 1 }}
-          contentContainerStyle={{ paddingBottom: 60, flexGrow: 1, paddingTop: 0 }}>
+        <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 60, flexGrow: 1, paddingTop: 0 }}>
           <YStack padding="$5" gap="$4">
             {/* Title Card */}
             <Card bordered style={{ width: '100%', backgroundColor: '#fff', borderRadius: 16 }}>
@@ -57,18 +66,18 @@ export default function Page() {
                 <H2 textAlign="center">{title}</H2>
               </YStack>
             </Card>
-            {/* Fitness Plan Card */}
-            <Card bordered style={{ width: '100%', backgroundColor: '#fff', borderRadius: 16 }}>
-              <YStack padding="$3">
-                <XStack alignItems="center">
-                  <MaterialIcons name="fitness-center" size={24} color="#4caf50" />
-                  <SizableText size="$6" fontWeight="bold">Fitness Plan</SizableText>
-                </XStack>
-                <Markdown>
-                  {fitnessPlan}
-                </Markdown>
-              </YStack>
-            </Card>
+
+            {/* Render each section in its own card */}
+            {sections.map((section) => (
+              <Card key={section.key} bordered style={{ width: '100%', backgroundColor: '#fff', borderRadius: 16 }}>
+                <YStack padding="$3">
+                  <RenderHtml
+                    contentWidth={width}
+                    source={{ html: section.content }}
+                  />
+                </YStack>
+              </Card>
+            ))}
           </YStack>
         </ScrollView>
       </SafeAreaView>
