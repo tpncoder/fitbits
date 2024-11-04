@@ -1,7 +1,7 @@
 import { TextInput, StyleSheet } from "react-native";
 import { Input } from "tamagui";
 
-export default function InputField({ store = "", update, placeholder, secureTextEntry=false, id="" }) {
+export default function InputField({ store = "", update, placeholder, secureTextEntry=false, id="" , props={}}) {
     return (
         <Input
             value={store}
@@ -9,7 +9,7 @@ export default function InputField({ store = "", update, placeholder, secureText
             onChangeText={(text) => update(text)}
             secureTextEntry={secureTextEntry}
             id={id}
-            borderColor={"$black5"}
+            {...props}
         />
     );
 }

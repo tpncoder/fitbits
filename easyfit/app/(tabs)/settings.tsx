@@ -107,8 +107,9 @@ export default function Settings({ onUpdate }: SettingsProps) {
                   alert('Failed to update profile.');
                 }
               }}
-              backgroundColor={"#303030"}
+              backgroundColor={"$red9Dark"}
               marginTop="$4"
+              fontWeight={800}
               color={"white"}
             >
               Update

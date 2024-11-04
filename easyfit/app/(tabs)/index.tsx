@@ -104,7 +104,7 @@ export default function TabOneScreen() {
             </YStack>
           ) : (
             <>
-              <Button margin={"$4"} marginLeft={"$8"} width={200} borderRadius={"$7"} backgroundColor="#303030" onPress={addPlan} color={"white"}>
+              <Button margin={"$4"} marginLeft={"$8"} width={200} borderRadius={"$7"} bg={"$red9Dark"} onPress={addPlan} color={"white"}>
                 <SizableText fontWeight={"800r"} color="white">Generate New Plan</SizableText>
               </Button>
               <YStack flex={1} gap={"$2"} marginLeft={"$3"}>

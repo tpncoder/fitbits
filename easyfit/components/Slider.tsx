@@ -10,10 +10,10 @@ export default function CSlider({ children, onValueChange, ...props }: SliderPro
       {...props}
       onValueChange={onValueChange}
     >
-      <Slider.Track backgroundColor={"#69DED2"}>
-        <Slider.TrackActive backgroundColor={"#49948C"}/>
+      <Slider.Track backgroundColor={"$red9Dark"}>
+        <Slider.TrackActive backgroundColor={"$red9Light"}/>
       </Slider.Track>
-      <Slider.Thumb size="$2" index={0} circular backgroundColor={"#312F30"} borderColor={"#1D2B2A"}/>
+      <Slider.Thumb size="$2" index={0} circular backgroundColor={"#312F30"}/>
       {children}
     </Slider>
   );

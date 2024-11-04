@@ -25,21 +25,21 @@ export default function AccountScreen() {
         setLoading(false);
       }
     };
-    
+
     returnUData();
   }, []);
 
   return (
-    <ImageBackground 
+    <ImageBackground
       source={require('@/assets/images/gradient.png')}
       style={{ flex: 1, width: null, height: null }}
     >
       <SafeAreaView style={{ flex: 1 }}>
-        <ScrollView 
-          contentContainerStyle={{ 
-            flexGrow: 1, 
-            padding: 20, 
-            paddingBottom: Platform.OS === 'web' ? 10 : 10 
+        <ScrollView
+          contentContainerStyle={{
+            flexGrow: 1,
+            padding: 20,
+            paddingBottom: Platform.OS === 'web' ? 10 : 10
           }}
         >
           <H1 color="white" alignSelf='center' marginTop={"$8"}>Your Profile</H1>
@@ -68,26 +68,27 @@ export default function AccountScreen() {
                   <H6>Member since {UData[0].created_on.toDate().toDateString()}</H6>
                   <H6>Age: {UData[0].age}</H6>
                   <H6>Gender: {UData[0].gender}</H6>
+                  <Button marginTop={"$2"} fontWeight={800} backgroundColor={"$red10Light"} color={'white'} onPress={() => { router.push("/progress") }}>Your Progress</Button>
                 </YGroup.Item>
               </YGroup>
             </Card>
           ) : (
             <H1 color="white">No user data available</H1>
           )}
-          <XGroup alignSelf='center'>
+          <XGroup alignSelf='center' flexDirection="row" justifyContent="space-between" paddingHorizontal={"$4"}>
             <Card
               padded
               bordered={false}
-              width={280}
+              width={130}  // Adjusted width to fit both cards on the same line
               height={150}
               borderRadius={"$radius.2"}
               onPress={() => { router.push("/(tabs)/user_posts") }}
-              style={{ 
-                overflow: 'hidden', 
+              style={{
+                overflow: 'hidden',
                 backgroundColor: 'transparent',
                 borderWidth: 0,
                 borderColor: 'transparent'
-              }} 
+              }}
             >
               <Card.Background>
                 <Image
@@ -104,16 +105,47 @@ export default function AccountScreen() {
                 <H3 fontWeight={800} color={"whitesmoke"} shadowColor={"$gray1Dark"}>YOUR POSTS</H3>
               </Card.Footer>
             </Card>
+
+            <Card
+              padded
+              bordered={false}
+              width={150}  // Adjusted width to fit both cards on the same line
+              height={150}
+              borderRadius={"$radius.2"}
+              onPress={() => { router.push("/(tabs)/library") }}
+              style={{
+                overflow: 'hidden',
+                backgroundColor: 'transparent',
+                borderWidth: 0,
+                borderColor: 'transparent'
+              }}
+            >
+              <Card.Background>
+                <Image
+                  borderRadius={"$radius.2"}
+                  source={{
+                    width: 300,
+                    height: 150,
+                    uri: 'https://images.unsplash.com/photo-1535905557558-afc4877a26fc?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+                  }}
+                  style={{ width: '100%', height: '100%' }}
+                />
+              </Card.Background>
+              <Card.Footer style={{ backgroundColor: 'transparent' }}>
+                <H3 fontWeight={800} color={"whitesmoke"} shadowColor={"$gray1Dark"}>LIBRARY</H3>
+              </Card.Footer>
+            </Card>
           </XGroup>
+
           <View style={{ paddingBottom: Platform.OS === 'web' ? 80 : 20 }}>
-            <Button 
-              onPress={() => { logOut() }} 
-              backgroundColor={"$red8Dark"} 
-              width={130} 
-              fontWeight={800} 
-              color={"whitesmoke"} 
-              shadowColor={'$gray1Dark'} 
-              alignSelf='center' 
+            <Button
+              onPress={() => { logOut() }}
+              backgroundColor={"$red8Dark"}
+              width={130}
+              fontWeight={800}
+              color={"whitesmoke"}
+              shadowColor={'$gray1Dark'}
+              alignSelf='center'
               marginTop={"$5"}
             >
               Log Out

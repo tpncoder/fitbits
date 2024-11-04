@@ -3,7 +3,7 @@ import { getPosts } from '@/scripts/getCommunityPosts';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import FitnessCard from '@/components/FitnessCard';
-import { H1, H2, YStack, Button, ScrollView, Text } from 'tamagui';
+import { H1, H6, YStack, Button, ScrollView, Text } from 'tamagui';
 import { ActivityIndicator, ImageBackground} from "react-native"
 
 export default function Page() {
@@ -46,7 +46,8 @@ export default function Page() {
             flexGrow: 1, // Ensures content fills the screen
           }}
         >
-          <H1 alignSelf='center' margin={"$4"} marginTop={"$9"} fontWeight={800} color="white">Community</H1>
+          <H1 alignSelf='center' margin={"$4"} marginTop={"$9"} fontWeight={800} color="white">COMMUNITY</H1>
+          <H6 alignSelf='center' color={'white'} textAlign='center' margin={"$3"}>Check what the community has to share!</H6>
           {loading ? (
             <YStack alignItems="center" justifyContent="center" flex={1}>
               <ActivityIndicator size="large" color="#blue8Dark" />

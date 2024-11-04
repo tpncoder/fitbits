@@ -7,7 +7,7 @@ import { router } from "expo-router";
 import { addDoc, collection, query, where, getDocs, updateDoc, doc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Button, Card, H1, Label, ScrollView, SizableText, XStack, YStack } from "tamagui";
+import { Button, Card, H1, Label, ScrollView, SizableText, XStack, YStack, H6 } from "tamagui";
 import { ImageBackground } from "react-native";
 
 export default function NewPost() {
@@ -112,7 +112,8 @@ export default function NewPost() {
             <SafeAreaView style={{ flex: 1 }}>
                 <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 100 }}>
                     <H1 alignSelf="center" padding={"$3"} fontWeight={800} marginTop={"$5"} color={"white"}>SHARE</H1>
-                    
+                    <H6 alignSelf='center' color={'white'} textAlign='center' margin={"$3"}>Share your progress with the community!</H6>
+
                     <Card
                         elevate
                         size={"$4"}
@@ -178,11 +179,13 @@ export default function NewPost() {
                                     update={setTag}
                                     placeholder=""
                                     id="tag-field"
+                                    props={{borderColor: "$gray8"}}
                                 />
                                 <Button
-                                    backgroundColor={"#312F30"}
                                     marginLeft={"$2"}
                                     color={"white"}
+                                    backgroundColor={"$red9Dark"}
+                                    fontWeight={800}
                                     onPress={() => {
                                         if (tag.trim().length > 0) {  // Ensures the tag is not empty or whitespace
                                             setTags([...tags, tag]);
@@ -232,7 +235,7 @@ export default function NewPost() {
                         </YStack>
                     </Card>
                     
-                    <Button borderRadius={"$9"} backgroundColor={"#303030"} color={"white"} width={150} alignSelf="center" onPress={shareProgress}>Share Post</Button>
+                    <Button borderRadius={"$9"} backgroundColor={"$red9Dark"} fontWeight={800} color={"white"} width={150} alignSelf="center" onPress={shareProgress}>Share Post</Button>
                 </ScrollView>
             </SafeAreaView>
         </ImageBackground>

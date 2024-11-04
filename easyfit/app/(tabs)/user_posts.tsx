@@ -3,7 +3,7 @@ import { getPlans } from '@/scripts/getFitnessPlans';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { getPosts } from '@/scripts/getUserPosts';
 import FitnessCard from '@/components/FitnessCard';
-import { H1, YStack, ScrollView, SizableText } from 'tamagui';
+import { H1, YStack, ScrollView, SizableText, H6 } from 'tamagui';
 import { ActivityIndicator, ImageBackground} from "react-native"
 
 export default function Page() {
@@ -35,6 +35,7 @@ export default function Page() {
       <SafeAreaView style={{ flex: 1 }}>
         <ScrollView contentContainerStyle={{ paddingBottom: 60 }}>
           <H1 alignSelf='center' margin={"$4"} color="white">Your Posts</H1>
+          <H6 alignSelf='center' color={'white'} textAlign='center' margin={"$3"}>What you've shared with the community!</H6>
           
           {loading ? (
             <YStack flex={1} alignItems='center' justifyContent='center'>

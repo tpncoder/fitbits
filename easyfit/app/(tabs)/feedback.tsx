@@ -1,5 +1,5 @@
 import { generateFeedback } from "@/scripts/feedBack";
-import { Text, YStack, XStack, Button, H1, Card, ScrollView } from "tamagui";
+import { Text, YStack, XStack, Button, H1, Card, ScrollView, H6 } from "tamagui";
 import InputField from "@/components/InputField";
 import { useState, useEffect } from 'react';
 import { getObjectData } from "@/scripts/store";
@@ -90,7 +90,8 @@ export default function Feedback() {
                         justifyContent='center'
                         alignSelf='center'
                     >
-                        <H1 color="white" marginBottom="$4">Get FeedBack</H1>
+                        <H1 color="white" marginBottom="$4">Get Feedback</H1>
+                        <H6 alignSelf='center' color={'white'} textAlign='center' margin={"$3"}>AI Feedback based on your progress!</H6>
                         {loading ? (
                             <YStack alignItems="center" justifyContent="center" flex={1}>
                                 <ActivityIndicator size="large" color="#blue8Dark" />
@@ -108,13 +109,14 @@ export default function Feedback() {
                                 </XStack>
                                 <Button
                                     onPress={handleFeedbackSubmit}
-                                    backgroundColor={"#303030"}
+                                    backgroundColor={"$red9Dark"}
                                     marginTop="$4"
                                     color={"white"}
                                     width={180}
                                     borderRadius={"$10"}
+                                    fontWeight={800}
                                 >
-                                    Get FeedBack Now!
+                                    Get Feedback Now!
                                 </Button>
                                 {
                                     feedback ? (

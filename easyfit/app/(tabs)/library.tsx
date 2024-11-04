@@ -5,7 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { ActivityIndicator, ImageBackground } from 'react-native';
 
 import LibraryCard from '@/components/LibraryCard';
-import { H1, YStack, ScrollView, Text, H3 } from 'tamagui';
+import { H1, YStack, ScrollView, Text, H3,H6} from 'tamagui';
 
 export default function Library() {
   const [libraryPlans, setLibraryPlans] = useState<any[]>([]);
@@ -43,6 +43,8 @@ export default function Library() {
           contentContainerStyle={{ paddingBottom: 80, flexGrow: 1, paddingTop: 0 }}
         >
           <H1 alignSelf='center' margin={"$4"} marginTop={"$9"} fontWeight={800} color="white">Library</H1>
+          <H6 alignSelf='center' color={'white'} textAlign='center' margin={"$3"}>Curated, pre-made workouts to choose from!</H6>
+
           {loading ? (
             <YStack alignItems="center" justifyContent="center" flex={1}>
               <ActivityIndicator size="large" color="#blue8Dark" />
