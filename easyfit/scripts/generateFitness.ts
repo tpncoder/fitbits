@@ -9,7 +9,10 @@ const formatUserData = (userData) => {
   - Weight: ${userData.weight} kg
   - Fitness Goal: ${userData.goal}
   - Age: ${userData.age}
-  - Gender: ${userData.gender}`;
+  - Gender: ${userData.gender}
+  - Blood Pressure: ${userData.bloodPressure}
+  - Lipid Profile: ${userData.lipidProfile}
+  - Blood Glucose Levels: ${userData.bloodGlucose}`;
 };
 
 export async function generatePlan(userData: object) {
